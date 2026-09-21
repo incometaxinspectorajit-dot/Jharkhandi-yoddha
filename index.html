@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jharkhandi Yoddha | Online Coaching</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0"></script>
+</head>
+<body>
+<header>
+  <div class="logo">⚔️ JHARKHANDI YODDHA</div>
+  <nav>
+    <a href="#home">Home</a><a href="#courses">Courses</a><a href="#tests">Tests</a>
+    <button id="authBtn" onclick="openAuth()">Login</button>
+  </nav>
+</header>
+
+<main>
+<section id="home" class="hero">
+  <div>
+    <span>ONLINE COACHING PLATFORM</span>
+    <h1>तैयारी ऐसी कि <b>कामयाबी पक्की</b></h1>
+    <p>JPSC, JSSC और प्रतियोगी परीक्षाओं की तैयारी के लिए Courses, Tests और Study Resources.</p>
+    <a class="primary" href="#courses">Courses देखें</a>
+    <a class="secondary" href="#tests">Free Test</a>
+  </div>
+  <div class="heroBox"><div class="big">📚</div><h2>Learn • Practice • Succeed</h2><p id="connectionStatus">Connecting…</p></div>
+</section>
+
+<section id="courses" class="section">
+  <small>POPULAR COURSES</small><h2>Courses</h2>
+  <div id="coursesGrid" class="grid"></div>
+</section>
+
+<section id="tests" class="section dark">
+  <small>PRACTICE ZONE</small><h2>Mock Tests</h2>
+  <div id="testsGrid" class="grid"></div>
+</section>
+
+<section id="dashboard" class="section hidden">
+  <small>MY ACCOUNT</small><h2>Student Dashboard</h2>
+  <div id="profileBox" class="dashboardCard"></div>
+  <h3>My Enrollments</h3><div id="enrollmentsGrid" class="grid"></div>
+</section>
+
+<section id="admin" class="section hidden">
+  <small>ADMIN</small><h2>Admin Dashboard</h2>
+  <div class="adminGrid">
+    <div class="dashboardCard"><h3>Course Management</h3><form id="courseForm">
+      <input id="courseTitle" placeholder="Course title" required>
+      <textarea id="courseDesc" placeholder="Description"></textarea>
+      <input id="coursePrice" type="number" min="0" placeholder="Price (₹)" value="0">
+      <input id="courseThumb" placeholder="Thumbnail URL (optional)">
+      <label><input id="coursePublished" type="checkbox"> Publish</label>
+      <button class="primaryBtn">Add Course</button>
+    </form></div>
+
+    <div class="dashboardCard"><h3>Lesson Management</h3><form id="lessonForm">
+      <select id="lessonCourse" required><option value="">Course चुनें</option></select>
+      <input id="lessonTitle" placeholder="Lesson title" required>
+      <textarea id="lessonDesc" placeholder="Lesson description"></textarea>
+      <input id="lessonVideo" placeholder="YouTube / Video URL (optional)">
+      <input id="lessonPdf" placeholder="PDF URL (optional)">
+      <input id="lessonOrder" type="number" min="0" value="1" placeholder="Order">
+      <label><input id="lessonPublished" type="checkbox"> Publish</label>
+      <button class="primaryBtn">Add Lesson</button>
+    </form></div>
+
+    <div class="dashboardCard"><h3>Test Management</h3><form id="testForm">
+      <input id="testTitle" placeholder="Test title" required>
+      <textarea id="testDesc" placeholder="Description"></textarea>
+      <input id="testDuration" type="number" min="1" value="30" placeholder="Duration">
+      <label><input id="testPublished" type="checkbox"> Publish</label>
+      <button class="primaryBtn">Add Test</button>
+    </form></div>
+  </div>
+  <h3>Existing Courses & Lessons</h3><div id="adminCourses" class="grid"></div>
+</section>
+</main>
+
+<footer>© 2026 Jharkhandi Yoddha • Real Supabase Version</footer>
+
+<div id="modal" class="modal"><div class="modalBox"><button class="x" onclick="closeModal()">×</button><div id="modalContent"></div></div></div>
+<script src="app.js"></script>
+</body></html>
