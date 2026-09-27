@@ -11,25 +11,36 @@
 
   <link rel="manifest" href="manifest.json">
 
-  <!-- Google Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
   >
 
-  <!-- Your existing stylesheet -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0"></script>
-
   <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0"></script>
 
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+
+    :root {
+      --bg: #06101d;
+      --bg2: #091827;
+      --card: rgba(255,255,255,.055);
+      --border: rgba(255,255,255,.10);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --orange: #ff9f1c;
+      --red: #ff5f56;
+      --purple: #8b5cf6;
+      --green: #22c55e;
     }
 
     html {
@@ -37,11 +48,34 @@
     }
 
     body {
-      font-family: "Inter", "Noto Sans Devanagari", sans-serif;
-      background: #07111f;
-      color: #f8fafc;
+      font-family:
+        "Inter",
+        "Noto Sans Devanagari",
+        sans-serif;
+      background:
+        radial-gradient(
+          circle at 10% 10%,
+          rgba(255,159,28,.08),
+          transparent 25%
+        ),
+        var(--bg);
+      color: var(--text);
       line-height: 1.6;
       overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(
+          circle at 85% 10%,
+          rgba(139,92,246,.10),
+          transparent 28%
+        );
+      z-index: -1;
     }
 
     a {
@@ -56,24 +90,28 @@
       font: inherit;
     }
 
-    /* =========================
-       HEADER
-    ========================== */
+    button {
+      cursor: pointer;
+    }
+
+    /* ================= HEADER ================= */
 
     header {
       position: sticky;
       top: 0;
       z-index: 1000;
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      background: rgba(7, 17, 31, 0.82);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(5,15,28,.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
     }
 
     .nav-wrap {
       max-width: 1200px;
       margin: auto;
-      padding: 15px 20px;
+      min-height: 76px;
+      padding: 12px 20px;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -83,43 +121,49 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-weight: 800;
-      letter-spacing: .3px;
+      gap: 11px;
     }
 
     .brand-logo {
-      width: 45px;
-      height: 45px;
-      border-radius: 14px;
+      width: 46px;
+      height: 46px;
+      border-radius: 15px;
+
       display: grid;
       place-items: center;
-      font-size: 22px;
-      background: linear-gradient(135deg, #ff9f1c, #ff4d6d);
-      box-shadow: 0 8px 30px rgba(255, 111, 0, .25);
-    }
 
-    .brand-text {
-      line-height: 1.1;
+      font-size: 23px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #ffb020,
+          #ff5f56
+        );
+
+      box-shadow:
+        0 10px 35px rgba(255,95,86,.25);
     }
 
     .brand-text strong {
       display: block;
-      font-size: 15px;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: .3px;
     }
 
     .brand-text span {
       display: block;
+      margin-top: 2px;
       color: #94a3b8;
-      font-size: 11px;
-      margin-top: 3px;
-      font-weight: 500;
+      font-size: 9px;
+      letter-spacing: .5px;
     }
 
     nav {
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 6px;
     }
 
     nav a,
@@ -127,9 +171,10 @@
       border: 0;
       background: transparent;
       color: #cbd5e1;
+
       padding: 9px 13px;
-      border-radius: 10px;
-      cursor: pointer;
+      border-radius: 11px;
+
       transition: .25s;
     }
 
@@ -140,95 +185,149 @@
     }
 
     .auth-btn {
-      background: linear-gradient(135deg, #ff9f1c, #ff5f56) !important;
+      background:
+        linear-gradient(
+          135deg,
+          var(--orange),
+          var(--red)
+        ) !important;
+
       color: white !important;
-      font-weight: 700;
-      box-shadow: 0 8px 25px rgba(255, 100, 50, .2);
+      font-weight: 800;
+
+      box-shadow:
+        0 10px 28px rgba(255,95,86,.22);
     }
 
-    /* =========================
-       HERO
-    ========================== */
+    /* ================= HERO ================= */
 
     .hero {
       position: relative;
       min-height: 650px;
-      display: flex;
-      align-items: center;
       overflow: hidden;
+
       background:
-        radial-gradient(circle at 15% 20%, rgba(255,159,28,.18), transparent 28%),
-        radial-gradient(circle at 85% 25%, rgba(139,92,246,.18), transparent 30%),
-        linear-gradient(180deg, #07111f 0%, #091827 100%);
+        radial-gradient(
+          circle at 10% 20%,
+          rgba(255,159,28,.18),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 90% 20%,
+          rgba(139,92,246,.20),
+          transparent 32%
+        ),
+        linear-gradient(
+          180deg,
+          #07111f,
+          #061523
+        );
     }
 
-    .hero::before {
+    .hero::after {
       content: "";
       position: absolute;
-      width: 500px;
-      height: 500px;
+
+      width: 420px;
+      height: 420px;
+
+      right: -170px;
+      top: -150px;
+
       border-radius: 50%;
-      background: rgba(255, 159, 28, .06);
-      filter: blur(30px);
-      top: -180px;
-      right: -120px;
+
+      border:
+        45px solid rgba(255,159,28,.06);
+
+      box-shadow:
+        0 0 0 45px rgba(139,92,246,.035);
+
+      pointer-events: none;
     }
 
     .hero-container {
       max-width: 1200px;
-      width: 100%;
+      min-height: 650px;
       margin: auto;
-      padding: 80px 20px;
+      padding: 70px 20px;
+
       display: grid;
-      grid-template-columns: 1.15fr .85fr;
+      grid-template-columns: 1.1fr .9fr;
+
       align-items: center;
       gap: 55px;
+
       position: relative;
-      z-index: 1;
+      z-index: 2;
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
+
       padding: 8px 13px;
+
       border-radius: 999px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.1);
+
+      background: rgba(255,255,255,.055);
+      border: 1px solid rgba(255,255,255,.09);
+
       color: #fbbf24;
-      font-size: 13px;
+
+      font-size: 12px;
       font-weight: 700;
+
       margin-bottom: 20px;
     }
 
     .badge-dot {
       width: 8px;
       height: 8px;
+
       border-radius: 50%;
-      background: #22c55e;
-      box-shadow: 0 0 12px #22c55e;
+
+      background: var(--green);
+
+      box-shadow:
+        0 0 14px var(--green);
     }
 
     .hero h1 {
-      font-size: clamp(42px, 6vw, 76px);
+      font-size: clamp(44px, 6vw, 76px);
       line-height: 1.02;
-      letter-spacing: -2.5px;
-      margin-bottom: 20px;
+
+      letter-spacing: -3px;
+
+      margin-bottom: 22px;
     }
 
     .gradient-text {
-      background: linear-gradient(90deg, #ffb020, #ff6b6b, #a78bfa);
+      display: block;
+
+      background:
+        linear-gradient(
+          90deg,
+          #ffb020,
+          #ff6b6b,
+          #a78bfa
+        );
+
       -webkit-background-clip: text;
       background-clip: text;
+
       color: transparent;
     }
 
     .hero p {
       max-width: 650px;
+
       color: #aab7c8;
-      font-size: 18px;
+
+      font-size: 17px;
       line-height: 1.8;
-      margin-bottom: 30px;
+
+      margin-bottom: 28px;
     }
 
     .hero-actions {
@@ -238,68 +337,132 @@
     }
 
     .primary,
-    .secondary {
+    .secondary,
+    .primaryBtn,
+    .secondaryBtn {
+      min-height: 46px;
+
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 50px;
-      padding: 0 20px;
+
+      padding: 0 18px;
+
       border-radius: 13px;
+
       border: 1px solid transparent;
-      cursor: pointer;
+
+      font-weight: 800;
+
       transition: .25s;
-      font-weight: 700;
     }
 
-    .primary {
-      background: linear-gradient(135deg, #ff9f1c, #ff5f56);
+    .primary,
+    .primaryBtn {
       color: white;
-      box-shadow: 0 15px 35px rgba(255, 105, 55, .2);
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--orange),
+          var(--red)
+        );
+
+      box-shadow:
+        0 12px 30px rgba(255,95,86,.20);
     }
 
-    .primary:hover {
+    .primary:hover,
+    .primaryBtn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 18px 40px rgba(255, 105, 55, .3);
+
+      box-shadow:
+        0 16px 35px rgba(255,95,86,.32);
     }
 
-    .secondary {
-      border-color: rgba(255,255,255,.12);
-      background: rgba(255,255,255,.05);
+    .secondary,
+    .secondaryBtn {
       color: #e2e8f0;
+
+      background: rgba(255,255,255,.055);
+
+      border-color:
+        rgba(255,255,255,.10);
     }
 
-    .secondary:hover {
-      background: rgba(255,255,255,.09);
+    .secondary:hover,
+    .secondaryBtn:hover {
+      background: rgba(255,255,255,.10);
+      transform: translateY(-2px);
     }
 
-    /* Hero Card */
+    #connectionStatus {
+      display: inline-flex;
+
+      margin-top: 18px;
+      padding: 7px 12px;
+
+      border-radius: 999px;
+
+      background: rgba(34,197,94,.08);
+
+      border:
+        1px solid rgba(34,197,94,.15);
+
+      color: #86efac;
+
+      font-size: 11px;
+    }
+
+    /* ================= HERO CARD ================= */
 
     .hero-box {
       position: relative;
     }
 
     .big-card {
-      border: 1px solid rgba(255,255,255,.1);
-      background: linear-gradient(
-        145deg,
-        rgba(255,255,255,.09),
-        rgba(255,255,255,.025)
-      );
+      padding: 30px;
+
       border-radius: 30px;
-      padding: 28px;
-      box-shadow: 0 30px 80px rgba(0,0,0,.35);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.11),
+          rgba(255,255,255,.035)
+        );
+
+      border:
+        1px solid rgba(255,255,255,.11);
+
+      box-shadow:
+        0 30px 90px rgba(0,0,0,.38);
+
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
     }
 
     .big-icon {
       width: 72px;
       height: 72px;
-      border-radius: 22px;
+
       display: grid;
       place-items: center;
+
+      border-radius: 22px;
+
       font-size: 34px;
-      background: linear-gradient(135deg, #ff9f1c, #ef4444);
+
+      background:
+        linear-gradient(
+          135deg,
+          #ffb020,
+          #ef4444
+        );
+
+      box-shadow:
+        0 15px 35px rgba(255,95,86,.20);
+
       margin-bottom: 25px;
     }
 
@@ -309,47 +472,58 @@
     }
 
     .big-card p {
+      color: #aab7c8;
       font-size: 14px;
       margin-bottom: 25px;
     }
 
     .mini-stats {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3,1fr);
       gap: 10px;
     }
 
     .mini-stat {
       padding: 15px 10px;
-      border-radius: 15px;
-      background: rgba(255,255,255,.05);
-      border: 1px solid rgba(255,255,255,.07);
+
       text-align: center;
+
+      border-radius: 15px;
+
+      background: rgba(255,255,255,.05);
+
+      border:
+        1px solid rgba(255,255,255,.07);
     }
 
     .mini-stat strong {
       display: block;
-      font-size: 19px;
+      font-size: 18px;
     }
 
     .mini-stat span {
       color: #94a3b8;
-      font-size: 11px;
+      font-size: 10px;
     }
 
-    /* =========================
-       COMMON SECTION
-    ========================== */
+    /* ================= SECTIONS ================= */
 
     .section {
       max-width: 1200px;
       margin: auto;
+
       padding: 85px 20px;
     }
 
     .section.dark {
       max-width: none;
-      background: #050d18;
+
+      background:
+        linear-gradient(
+          180deg,
+          #050d18,
+          #040a13
+        );
     }
 
     .section-inner {
@@ -363,118 +537,205 @@
 
     .section-heading small {
       color: #fbbf24;
+
       font-weight: 800;
+      font-size: 11px;
+
       letter-spacing: 1.5px;
-      text-transform: uppercase;
     }
 
     .section-heading h2 {
-      font-size: clamp(30px, 4vw, 45px);
       margin-top: 8px;
-      letter-spacing: -1px;
+
+      font-size: clamp(30px,4vw,45px);
+
+      line-height: 1.15;
     }
 
     .section-heading p {
+      margin-top: 9px;
+
       color: #94a3b8;
-      margin-top: 8px;
+      font-size: 14px;
     }
 
-    /* =========================
-       COURSE GRID
-    ========================== */
+    /* ================= GRID / CARDS ================= */
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+
+      grid-template-columns:
+        repeat(3,minmax(0,1fr));
+
       gap: 20px;
     }
 
+    .card,
     .course-card,
     .test-card,
     .dashboardCard {
-      background: rgba(255,255,255,.045);
-      border: 1px solid rgba(255,255,255,.09);
-      border-radius: 20px;
       padding: 22px;
+
+      border-radius: 22px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.075),
+          rgba(255,255,255,.025)
+        );
+
+      border:
+        1px solid rgba(255,255,255,.09);
+
+      box-shadow:
+        0 15px 45px rgba(0,0,0,.16);
+
       transition: .3s;
     }
 
+    .card:hover,
     .course-card:hover,
     .test-card:hover,
     .dashboardCard:hover {
-      transform: translateY(-5px);
-      border-color: rgba(255,159,28,.35);
-      box-shadow: 0 20px 45px rgba(0,0,0,.2);
+      transform: translateY(-4px);
+
+      border-color:
+        rgba(255,159,28,.30);
+
+      box-shadow:
+        0 22px 55px rgba(0,0,0,.24);
     }
 
-    .course-card img {
-      width: 100%;
-      height: 170px;
-      object-fit: cover;
-      border-radius: 14px;
-      margin-bottom: 16px;
-    }
-
+    .card h3,
     .course-card h3,
     .test-card h3 {
       margin-bottom: 8px;
     }
 
+    .card p,
     .course-card p,
     .test-card p {
       color: #94a3b8;
       font-size: 14px;
     }
 
-    /* =========================
-       STATUS
-    ========================== */
+    .thumb {
+      width: 100%;
+      height: 180px;
 
-    #connectionStatus {
-      display: inline-flex;
-      margin-top: 18px;
-      padding: 7px 12px;
-      border-radius: 999px;
-      background: rgba(34,197,94,.08);
-      color: #86efac;
-      border: 1px solid rgba(34,197,94,.15);
-      font-size: 12px;
+      object-fit: cover;
+
+      border-radius: 16px;
+
+      margin-bottom: 16px;
+
+      display: block;
     }
 
-    /* =========================
-       DASHBOARD / ADMIN
-    ========================== */
+    .price {
+      color: #ffd166;
 
-    .section.hidden {
-      display: none;
+      font-size: 22px;
+      font-weight: 800;
+
+      margin: 14px 0;
     }
 
-    .dashboard-grid,
-    .adminGrid {
+    .muted {
+      color: #94a3b8;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .row .primaryBtn,
+    .row .secondaryBtn {
+      flex: 1;
+    }
+
+    .error {
+      border-color: rgba(239,68,68,.35);
+      color: #fecaca;
+    }
+
+    .success {
+      color: #86efac !important;
+    }
+
+    .danger {
+      margin-top: 15px;
+
+      border: 0;
+
+      padding: 10px 15px;
+
+      border-radius: 10px;
+
+      background: #dc2626;
+      color: white;
+
+      font-weight: 700;
+    }
+
+    /* ================= ADMIN ================= */
+
+    .hidden {
+      display: none !important;
+    }
+
+    .adminGrid,
+    .dashboard-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-    }
 
-    .dashboardCard h3 {
-      margin-bottom: 18px;
+      grid-template-columns:
+        repeat(2,minmax(0,1fr));
+
+      gap: 20px;
     }
 
     form {
       display: grid;
-      gap: 12px;
+      gap: 13px;
     }
 
     input,
     textarea,
     select {
       width: 100%;
+
       padding: 13px 14px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.1);
-      background: rgba(0,0,0,.22);
+
+      border-radius: 13px;
+
+      border:
+        1px solid rgba(255,255,255,.10);
+
+      background:
+        rgba(0,0,0,.22);
+
       color: white;
+
       outline: none;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #64748b;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color:
+        rgba(255,159,28,.65);
+
+      box-shadow:
+        0 0 0 3px rgba(255,159,28,.08);
     }
 
     textarea {
@@ -482,131 +743,202 @@
       resize: vertical;
     }
 
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: rgba(255,159,28,.65);
-      box-shadow: 0 0 0 3px rgba(255,159,28,.08);
-    }
-
     label {
       color: #cbd5e1;
       font-size: 13px;
     }
 
-    /* =========================
-       FOOTER
-    ========================== */
+    label input {
+      width: auto;
+      margin-right: 6px;
+    }
+
+    .miniLesson {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+
+      padding: 10px 0;
+
+      border-bottom:
+        1px solid rgba(255,255,255,.06);
+
+      color: #cbd5e1;
+
+      font-size: 13px;
+    }
+
+    .miniLesson span {
+      color: #86efac;
+      font-size: 11px;
+    }
+
+    /* ================= MODAL ================= */
+
+    .modal {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 9999;
+
+      display: none;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 18px;
+
+      background:
+        rgba(0,0,0,.72);
+
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-box {
+      width: min(680px,100%);
+
+      max-height: 90vh;
+
+      overflow-y: auto;
+
+      position: relative;
+
+      padding: 26px;
+
+      border-radius: 24px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #122238,
+          #07111f
+        );
+
+      border:
+        1px solid rgba(255,255,255,.12);
+
+      box-shadow:
+        0 35px 100px rgba(0,0,0,.55);
+    }
+
+    .modal-close {
+      position: absolute;
+
+      top: 12px;
+      right: 14px;
+
+      width: 38px;
+      height: 38px;
+
+      border: 0;
+
+      border-radius: 50%;
+
+      background:
+        rgba(255,255,255,.08);
+
+      color: white;
+
+      font-size: 20px;
+    }
+
+    #modalContent h2 {
+      margin-bottom: 12px;
+      padding-right: 45px;
+    }
+
+    #modalContent p {
+      color: #aab7c8;
+      margin-bottom: 14px;
+    }
+
+    .lessonList {
+      display: grid;
+      gap: 12px;
+
+      margin-top: 20px;
+    }
+
+    .lesson {
+      padding: 16px;
+
+      border-radius: 16px;
+
+      background:
+        rgba(255,255,255,.045);
+
+      border:
+        1px solid rgba(255,255,255,.08);
+    }
+
+    .lesson strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .videoWrap {
+      position: relative;
+
+      width: 100%;
+
+      aspect-ratio: 16/9;
+
+      overflow: hidden;
+
+      border-radius: 16px;
+
+      background: black;
+
+      margin: 18px 0;
+    }
+
+    .videoWrap iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .small {
+      font-size: 12px !important;
+    }
+
+    .linkBtn {
+      text-decoration: none;
+    }
+
+    /* ================= FOOTER ================= */
 
     footer {
-      background: #030914;
-      border-top: 1px solid rgba(255,255,255,.07);
       padding: 35px 20px;
+
       text-align: center;
+
       color: #64748b;
+
+      background: #030914;
+
+      border-top:
+        1px solid rgba(255,255,255,.07);
     }
 
     footer strong {
       color: #e2e8f0;
     }
 
-    /* =========================
-       MOBILE
-    ========================== */
+    /* ================= ANIMATION ================= */
 
-    @media (max-width: 900px) {
-
-      .hero-container {
-        grid-template-columns: 1fr;
-        padding-top: 65px;
-      }
-
-      .hero {
-        min-height: auto;
-      }
-
-      .hero-box {
-        max-width: 600px;
-      }
-
-      .grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .dashboard-grid,
-      .adminGrid {
-        grid-template-columns: 1fr;
-      }
-
-      nav a {
-        display: none;
-      }
-
-      .nav-wrap {
-        padding: 12px 14px;
-      }
-    }
-
-    @media (max-width: 600px) {
-
-      .brand-text strong {
-        font-size: 13px;
-      }
-
-      .brand-text span {
-        font-size: 9px;
-      }
-
-      .brand-logo {
-        width: 40px;
-        height: 40px;
-      }
-
-      .hero-container {
-        padding: 55px 16px;
-      }
-
-      .hero h1 {
-        font-size: 44px;
-        letter-spacing: -1.5px;
-      }
-
-      .hero p {
-        font-size: 15px;
-      }
-
-      .hero-actions {
-        flex-direction: column;
-      }
-
-      .primary,
-      .secondary {
-        width: 100%;
-      }
-
-      .section {
-        padding: 60px 16px;
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .mini-stats {
-        grid-template-columns: 1fr;
-      }
-
-      .big-card {
-        padding: 20px;
-      }
-    }
-
-    /* Smooth entrance */
     @keyframes fadeUp {
       from {
         opacity: 0;
         transform: translateY(20px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -615,82 +947,253 @@
 
     .hero-content,
     .hero-box {
-      animation: fadeUp .8s ease both;
+      animation:
+        fadeUp .8s ease both;
     }
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 900px) {
+
+      .hero-container {
+        grid-template-columns: 1fr;
+        min-height: auto;
+
+        padding-top: 65px;
+        padding-bottom: 70px;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .grid {
+        grid-template-columns: repeat(2,1fr);
+      }
+
+      .adminGrid,
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+
+      .nav-wrap {
+        min-height: 68px;
+        padding: 10px 14px;
+      }
+
+      .brand-logo {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+
+      .brand-text strong {
+        font-size: 12px;
+      }
+
+      .brand-text span {
+        font-size: 8px;
+      }
+
+      nav {
+        gap: 2px;
+      }
+
+      nav a {
+        display: none;
+      }
+
+      .nav-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+
+      .hero-container {
+        padding: 55px 16px;
+      }
+
+      .hero h1 {
+        font-size: 45px;
+        letter-spacing: -2px;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+
+      .hero-actions {
+        flex-direction: row;
+      }
+
+      .primary,
+      .secondary {
+        flex: 1;
+      }
+
+      .big-card {
+        padding: 22px;
+      }
+
+      .big-card h2 {
+        font-size: 23px;
+      }
+
+      .mini-stats {
+        gap: 7px;
+      }
+
+      .mini-stat {
+        padding: 12px 7px;
+      }
+
+      .mini-stat strong {
+        font-size: 15px;
+      }
+
+      .mini-stat span {
+        font-size: 9px;
+      }
+
+      .section {
+        padding: 65px 15px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .row {
+        width: 100%;
+      }
+
+      .row .primaryBtn,
+      .row .secondaryBtn {
+        min-width: 0;
+      }
+
+      .modal-box {
+        padding: 20px;
+      }
+    }
+
   </style>
 </head>
 
 <body>
 
-  <!-- =========================
-       HEADER
-  ========================== -->
+  <!-- ================= HEADER ================= -->
 
   <header>
+
     <div class="nav-wrap">
 
       <a href="#home" class="brand">
-        <div class="brand-logo">⚔️</div>
+
+        <div class="brand-logo">
+          ⚔️
+        </div>
 
         <div class="brand-text">
           <strong>JHARKHANDI YODDHA</strong>
           <span>ONLINE COACHING PLATFORM</span>
         </div>
+
       </a>
 
       <nav>
-        <a href="#home">Home</a>
-        <a href="#courses">Courses</a>
-        <a href="#tests">Tests</a>
 
-        <button id="authBtn" class="nav-btn auth-btn">
+        <a href="#home">
+          Home
+        </a>
+
+        <a href="#courses">
+          Courses
+        </a>
+
+        <a href="#tests">
+          Tests
+        </a>
+
+        <button
+          id="authBtn"
+          class="nav-btn auth-btn"
+        >
           Login
         </button>
+
       </nav>
 
     </div>
+
   </header>
 
 
-  <!-- =========================
-       HERO
-  ========================== -->
+  <!-- ================= MAIN ================= -->
 
   <main>
 
-    <section id="home" class="hero">
+    <!-- HERO -->
+
+    <section
+      id="home"
+      class="hero"
+    >
 
       <div class="hero-container">
 
         <div class="hero-content">
 
           <div class="badge">
+
             <span class="badge-dot"></span>
+
             अब तैयारी होगी स्मार्ट तरीके से
+
           </div>
 
+
           <h1>
+
             बनो अगला
-            <span class="gradient-text">Jharkhandi Yoddha</span>
+
+            <span class="gradient-text">
+              Jharkhandi Yoddha
+            </span>
+
           </h1>
 
+
           <p>
-            JPSC, JSSC और अन्य प्रतियोगी परीक्षाओं की तैयारी के लिए
-            Courses, Mock Tests, Study Resources और Online Learning
+
+            JPSC, JSSC और अन्य प्रतियोगी परीक्षाओं की
+            तैयारी के लिए Courses, Mock Tests,
+            Study Resources और Online Learning
             एक ही जगह।
+
           </p>
+
 
           <div class="hero-actions">
 
-            <a href="#courses" class="primary">
+            <a
+              href="#courses"
+              class="primary"
+            >
               📚 Courses देखें
             </a>
 
-            <a href="#tests" class="secondary">
+            <a
+              href="#tests"
+              class="secondary"
+            >
               📝 Free Test दें
             </a>
 
           </div>
+
 
           <div id="connectionStatus">
             Connecting...
@@ -715,6 +1218,7 @@
               सही दिशा, बेहतर अभ्यास और लगातार तैयारी —
               आपका लक्ष्य, हमारी कोशिश।
             </p>
+
 
             <div class="mini-stats">
 
@@ -744,33 +1248,46 @@
     </section>
 
 
-    <!-- =========================
-         COURSES
-    ========================== -->
+    <!-- ================= COURSES ================= -->
 
-    <section id="courses" class="section">
+    <section
+      id="courses"
+      class="section"
+    >
 
       <div class="section-heading">
 
-        <small>POPULAR COURSES</small>
+        <small>
+          POPULAR COURSES
+        </small>
 
-        <h2>अपने लक्ष्य के लिए Course चुनें</h2>
+        <h2>
+          अपने लक्ष्य के लिए Course चुनें
+        </h2>
 
         <p>
-          परीक्षा के अनुसार structured learning और practice।
+          परीक्षा के अनुसार structured learning
+          और practice।
         </p>
 
       </div>
 
-      <div id="coursesGrid" class="grid">
 
-        <!-- Courses JavaScript से आएंगे -->
+      <div
+        id="coursesGrid"
+        class="grid"
+      >
 
-        <div class="course-card">
-          <h3>📚 Courses Loading...</h3>
+        <div class="card">
+
+          <h3>
+            📚 Courses Loading...
+          </h3>
+
           <p>
             Courses की जानकारी लोड हो रही है।
           </p>
+
         </div>
 
       </div>
@@ -778,31 +1295,43 @@
     </section>
 
 
-    <!-- =========================
-         TESTS
-    ========================== -->
+    <!-- ================= TESTS ================= -->
 
-    <section id="tests" class="section dark">
+    <section
+      id="tests"
+      class="section dark"
+    >
 
       <div class="section-inner">
 
         <div class="section-heading">
 
-          <small>PRACTICE ZONE</small>
+          <small>
+            PRACTICE ZONE
+          </small>
 
-          <h2>Mock Tests</h2>
+          <h2>
+            Mock Tests
+          </h2>
 
           <p>
-            अपनी तैयारी को test करें और अपनी progress जानें।
+            अपनी तैयारी को test करें और
+            अपनी progress जानें।
           </p>
 
         </div>
 
-        <div id="testsGrid" class="grid">
 
-          <div class="test-card">
+        <div
+          id="testsGrid"
+          class="grid"
+        >
 
-            <h3>📝 Tests Loading...</h3>
+          <div class="card">
+
+            <h3>
+              📝 Tests Loading...
+            </h3>
 
             <p>
               उपलब्ध tests जल्द दिखाई देंगे।
@@ -817,46 +1346,66 @@
     </section>
 
 
-    <!-- =========================
-         USER DASHBOARD
-    ========================== -->
+    <!-- ================= DASHBOARD ================= -->
 
-    <section id="dashboard" class="section hidden">
+    <section
+      id="dashboard"
+      class="section hidden"
+    >
 
       <div class="section-heading">
 
-        <small>MY ACCOUNT</small>
+        <small>
+          MY ACCOUNT
+        </small>
 
-        <h2>Dashboard</h2>
+        <h2>
+          Dashboard
+        </h2>
 
         <p>
-          अपनी learning और enrolled courses यहाँ देखें।
+          अपनी learning और enrolled courses
+          यहाँ देखें।
         </p>
 
       </div>
 
-      <div id="profileBox" class="dashboardCard"></div>
+
+      <div
+        id="profileBox"
+        class="dashboardCard"
+      ></div>
+
 
       <h3 style="margin:30px 0 15px;">
         📚 My Enrollments
       </h3>
 
-      <div id="enrollmentGrid" class="grid"></div>
+
+      <div
+        id="enrollmentsGrid"
+        class="grid"
+      ></div>
 
     </section>
 
 
-    <!-- =========================
-         ADMIN PANEL
-    ========================== -->
+    <!-- ================= ADMIN ================= -->
 
-    <section id="admin" class="section hidden">
+    <section
+      id="admin"
+      class="section hidden"
+    >
 
       <div class="section-heading">
 
-        <small>ADMIN</small>
+        <small>
+          ADMIN
+        </small>
 
-        <h2>Admin Dashboard</h2>
+        <h2>
+          Admin Dashboard
+        </h2>
 
         <p>
           Courses, lessons और tests manage करें।
@@ -868,11 +1417,13 @@
       <div class="adminGrid">
 
 
-        <!-- COURSE MANAGEMENT -->
+        <!-- COURSE -->
 
         <div class="dashboardCard">
 
-          <h3>📚 Course Management</h3>
+          <h3>
+            📚 Course Management
+          </h3>
 
           <form id="courseForm">
 
@@ -891,8 +1442,8 @@
               id="coursePrice"
               type="number"
               min="0"
-              placeholder="Price"
               value="0"
+              placeholder="Price"
             >
 
             <input
@@ -901,14 +1452,20 @@
             >
 
             <label>
+
               <input
                 id="coursePublished"
                 type="checkbox"
               >
+
               Publish Course
+
             </label>
 
-            <button class="primary" type="submit">
+            <button
+              class="primary"
+              type="submit"
+            >
               Add Course
             </button>
 
@@ -917,15 +1474,20 @@
         </div>
 
 
-        <!-- LESSON MANAGEMENT -->
+        <!-- LESSON -->
 
         <div class="dashboardCard">
 
-          <h3>🎥 Lesson Management</h3>
+          <h3>
+            🎥 Lesson Management
+          </h3>
 
           <form id="lessonForm">
 
-            <select id="lessonCourse" required>
+            <select
+              id="lessonCourse"
+              required
+            >
 
               <option value="">
                 Course चुनें
@@ -933,26 +1495,31 @@
 
             </select>
 
+
             <input
               id="lessonTitle"
               placeholder="Lesson title"
               required
             >
 
+
             <textarea
               id="lessonDesc"
               placeholder="Lesson description"
             ></textarea>
+
 
             <input
               id="lessonVideo"
               placeholder="YouTube / Video URL"
             >
 
+
             <input
               id="lessonPdf"
               placeholder="PDF URL (optional)"
             >
+
 
             <input
               id="lessonOrder"
@@ -962,15 +1529,23 @@
               placeholder="Order"
             >
 
+
             <label>
+
               <input
                 id="lessonPublished"
                 type="checkbox"
               >
+
               Publish Lesson
+
             </label>
 
-            <button class="primary" type="submit">
+
+            <button
+              class="primary"
+              type="submit"
+            >
               Add Lesson
             </button>
 
@@ -979,11 +1554,13 @@
         </div>
 
 
-        <!-- TEST MANAGEMENT -->
+        <!-- TEST -->
 
         <div class="dashboardCard">
 
-          <h3>📝 Test Management</h3>
+          <h3>
+            📝 Test Management
+          </h3>
 
           <form id="testForm">
 
@@ -993,10 +1570,12 @@
               required
             >
 
+
             <textarea
               id="testDesc"
               placeholder="Test description"
             ></textarea>
+
 
             <input
               id="testDuration"
@@ -1006,19 +1585,27 @@
               placeholder="Duration in minutes"
             >
 
+
             <label>
+
               <input
                 id="testPublished"
                 type="checkbox"
               >
+
               Publish Test
+
             </label>
 
-            <button class="primary" type="submit">
+
+            <button
+              class="primary"
+              type="submit"
+            >
               Add Test
             </button>
 
-          <script src="app.js?v=5"></script>
+          </form>
 
         </div>
 
@@ -1029,23 +1616,32 @@
         📦 Existing Courses & Lessons
       </h3>
 
-      <div id="adminCourses" class="grid"></div>
+
+      <div
+        id="adminCourses"
+        class="grid"
+      ></div>
 
     </section>
 
   </main>
 
 
-  <!-- =========================
-       FOOTER
-  ========================== -->
+  <!-- ================= FOOTER ================= -->
 
   <footer>
 
     <p>
-      © <span id="year"></span>
-      <strong>Jharkhandi Yoddha</strong>
+
+      ©
+      <span id="year"></span>
+
+      <strong>
+        Jharkhandi Yoddha
+      </strong>
+
       — Online Coaching Platform
+
     </p>
 
     <p style="margin-top:6px;font-size:12px;">
@@ -1055,9 +1651,31 @@
   </footer>
 
 
-  <!-- =========================
-       SMALL PAGE SCRIPT
-  ========================== -->
+  <!-- ================= MODAL ================= -->
+
+  <div
+    id="modal"
+    class="modal"
+  >
+
+    <div class="modal-box">
+
+      <button
+        class="modal-close"
+        onclick="closeModal()"
+        aria-label="Close"
+      >
+        ×
+      </button>
+
+      <div id="modalContent"></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- YEAR -->
 
   <script>
     document.getElementById("year").textContent =
@@ -1065,8 +1683,9 @@
   </script>
 
 
-  <!-- YOUR EXISTING JAVASCRIPT -->
-  <script src="app.js?v=3"></script>
+  <!-- EXISTING APP -->
+
+  <script src="app.js?v=5"></script>
 
 </body>
 </html>
