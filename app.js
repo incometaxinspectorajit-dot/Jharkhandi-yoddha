@@ -305,53 +305,56 @@ async function loadCourses() {
     return;
   }
 
-  el.style.display = "grid";
-  el.style.gridTemplateColumns =
-    "repeat(auto-fit, minmax(280px, 1fr))";
-  el.style.gap = "18px";
+  el.innerHTML = data
+    .map(function (course) {
+      return `
+        <div class="card">
 
-  el.innerHTML = data.map(function(course) {
+          ${
+            course.thumbnail_url
+              ? `
+                <img
+                  class="thumb"
+                  src="${esc(course.thumbnail_url)}"
+                  alt="${esc(course.title)}"
+                >
+              `
+              : ""
+          }
 
-    const thumbnail = course.thumbnail_url
-      ? `
-        <img
-          src="${esc(course.thumbnail_url)}"
-          alt="${esc(course.title)}"
-          style="
-            width:100%;
-            height:180px;
-            object-fit:cover;
-            display:block;
-          "
-        >
-      `
-      : `
-        <div style="
-          height:180px;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          background:linear-gradient(135deg,#ff6b35,#ff9f1c);
-          font-size:58px;
-        ">
-          📚
+          <h3>${esc(course.title)}</h3>
+
+          <p class="muted">
+            ${esc(course.description || "")}
+          </p>
+
+          <div class="price">
+            ${money(course.price)}
+          </div>
+
+          <div class="row">
+
+            <button
+              class="primaryBtn"
+              onclick="enroll('${course.id}')"
+            >
+              Enroll
+            </button>
+
+            <button
+              class="secondaryBtn"
+              onclick="openCourse('${course.id}')"
+            >
+              View Course
+            </button>
+
+          </div>
+
         </div>
       `;
-
-    return `
-      <article style="
-        overflow:hidden;
-        border:1px solid rgba(255,255,255,.10);
-        border-radius:22px;
-        background:linear-gradient(
-          180deg,
-          rgba(25,38,58,.97),
-          rgba(11,20,34,.99)
-        );
-        box-shadow:0 18px 45px rgba(0,0,0,.28);
-      ">
-
-        <div style="position:relative;">
+    })
+    .join("");
+}
           ${thumbnail}
 
           <span style="
