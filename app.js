@@ -305,44 +305,158 @@ async function loadCourses() {
     return;
   }
 
-  el.innerHTML = data
-    .map(function (course) {
-      return `
-        <div class="card">
+  el.style.display = "grid";
+  el.style.gridTemplateColumns =
+    "repeat(auto-fit, minmax(280px, 1fr))";
+  el.style.gap = "18px";
 
-          ${
-            course.thumbnail_url
-              ? `
-                <img
-                  class="thumb"
-                  src="${esc(course.thumbnail_url)}"
-                  alt="${esc(course.title)}"
-                >
-              `
-              : ""
-          }
+  el.innerHTML = data.map(function(course) {
 
-          <h3>${esc(course.title)}</h3>
+    const thumbnail = course.thumbnail_url
+      ? `
+        <img
+          src="${esc(course.thumbnail_url)}"
+          alt="${esc(course.title)}"
+          style="
+            width:100%;
+            height:180px;
+            object-fit:cover;
+            display:block;
+          "
+        >
+      `
+      : `
+        <div style="
+          height:180px;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          background:linear-gradient(135deg,#ff6b35,#ff9f1c);
+          font-size:58px;
+        ">
+          📚
+        </div>
+      `;
 
-          <p class="muted">
-            ${esc(course.description || "")}
-          </p>
+    return `
+      <article style="
+        overflow:hidden;
+        border:1px solid rgba(255,255,255,.10);
+        border-radius:22px;
+        background:linear-gradient(
+          180deg,
+          rgba(25,38,58,.97),
+          rgba(11,20,34,.99)
+        );
+        box-shadow:0 18px 45px rgba(0,0,0,.28);
+      ">
 
-          <div class="price">
-            ${money(course.price)}
+        <div style="position:relative;">
+          ${thumbnail}
+
+          <span style="
+            position:absolute;
+            left:14px;
+            top:14px;
+            padding:7px 10px;
+            border-radius:999px;
+            background:rgba(7,17,31,.85);
+            color:#ffd166;
+            font-size:11px;
+            font-weight:800;
+            letter-spacing:.5px;
+          ">
+            JHARKHANDI YODDHA
+          </span>
+        </div>
+
+        <div style="padding:18px;">
+
+          <div style="
+            display:inline-flex;
+            padding:6px 10px;
+            border-radius:999px;
+            background:rgba(255,159,28,.12);
+            color:#ffb13b;
+            font-size:11px;
+            font-weight:800;
+            margin-bottom:10px;
+          ">
+            🎯 JPSC • JSSC
           </div>
 
-          <div class="row">
+          <h3 style="
+            margin:0 0 9px;
+            font-size:20px;
+            line-height:1.35;
+          ">
+            ${esc(course.title)}
+          </h3>
+
+          <p
+            class="muted"
+            style="
+              margin:0 0 16px;
+              line-height:1.65;
+              display:-webkit-box;
+              -webkit-line-clamp:3;
+              -webkit-box-orient:vertical;
+              overflow:hidden;
+            "
+          >
+            ${esc(
+              course.description ||
+              "Jharkhand competitive exams की structured preparation."
+            )}
+          </p>
+
+          <div style="
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:12px;
+            margin-bottom:16px;
+          ">
+
+            <div>
+              <div style="
+                font-size:11px;
+                color:#8fa0b5;
+                margin-bottom:3px;
+              ">
+                COURSE FEE
+              </div>
+
+              <div
+                class="price"
+                style="font-size:22px;"
+              >
+                ${money(course.price)}
+              </div>
+            </div>
+
+            <div style="
+              font-size:12px;
+              color:#9fb0c4;
+            ">
+              📚 Online Course
+            </div>
+
+          </div>
+
+          <div class="row" style="gap:10px;">
 
             <button
               class="primaryBtn"
+              style="flex:1;"
               onclick="enroll('${course.id}')"
             >
-              Enroll
+              Enroll Now
             </button>
 
             <button
               class="secondaryBtn"
+              style="flex:1;"
               onclick="openCourse('${course.id}')"
             >
               View Course
@@ -351,6 +465,10 @@ async function loadCourses() {
           </div>
 
         </div>
+      </article>
+    `;
+  }).join("");
+}
       `;
     })
     .join("");
