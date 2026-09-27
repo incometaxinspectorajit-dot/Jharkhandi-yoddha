@@ -771,42 +771,57 @@ async function openCourse(courseId) {
 // ===============================
 
 function playVideo(url, title) {
-  let embedUrl = url;
+  let playerHTML = "";
 
-  try {
-    const youtubeWatch =
-      url.match(
-        /(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{6,})/i
-      );
+  const isYouTube =
+    /youtube\.com\/watch\?v=|youtu\.be\//i.test(url);
 
-    if (youtubeWatch) {
+  if (isYouTube) {
+    let embedUrl = url;
+
+    const match = url.match(
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{6,})/i
+    );
+
+    if (match) {
       embedUrl =
-        "https://www.youtube.com/embed/" +
-        youtubeWatch[1];
+        "https://www.youtube.com/embed/" + match[1];
     }
-  } catch (error) {
-    console.error(error);
-  }
 
-  openModal(`
-    <h2>${esc(title)}</h2>
-
-    <div class="videoWrap">
+    playerHTML = `
       <iframe
         src="${esc(embedUrl)}"
         title="${esc(title)}"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowfullscreen
       ></iframe>
+    `;
+  } else {
+    playerHTML = `
+      <video
+        controls
+        playsinline
+        preload="metadata"
+        style="width:100%;border-radius:16px;"
+      >
+        <source src="${esc(url)}">
+        आपका browser इस video को play नहीं कर पा रहा है।
+      </video>
+    `;
+  }
+
+  openModal(`
+    <h2>${esc(title)}</h2>
+
+    <div class="videoWrap">
+      ${playerHTML}
     </div>
 
     <p class="muted small">
-      Video source:
-      ${esc(url)}
+      Video source: ${esc(url)}
     </p>
   `);
 }
-
 // ===============================
 // ADMIN - COURSE LIST FOR LESSON
 // ===============================
