@@ -1065,10 +1065,10 @@ function setupForms() {
         const description =
           $("lessonDesc")?.value.trim() || "";
 
-        const video =
+        let video =
           $("lessonVideo")?.value.trim() || null;
 
-        const pdf =
+        let pdf =
           $("lessonPdf")?.value.trim() || null;
 
         const order = Number(
@@ -1087,7 +1087,66 @@ function setupForms() {
           alert("Lesson title डालें।");
           return;
         }
+const videoFile = $("lessonVideoFile")?.files?.[0] || null;
+const pdfFile = $("lessonPdfFile")?.files?.[0] || null;
 
+if (videoFile && videoFile.size > 50 * 1024 * 1024) {
+    alert("Video 50 MB से बड़ी है।");
+    return;
+}
+
+if (pdfFile && pdfFile.size > 50 * 1024 * 1024) {
+    alert("PDF 50 MB से बड़ी है।");
+    return;
+}
+
+if (videoFile) {
+    const safeName = videoFile.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const path = `videos/${Date.now()}-${safeName}`;
+
+    const { error: uploadError } = await db.storage
+        .from("course-files")
+        .upload(path, videoFile, {
+            cacheControl: "3600",
+            upsert: false,
+            contentType: videoFile.type
+        });
+
+    if (uploadError) {
+        alert("Video upload failed: " + uploadError.message);
+        return;
+    }
+
+    const { data: publicData } = db.storage
+        .from("course-files")
+        .getPublicUrl(path);
+
+    video = publicData.publicUrl;
+}
+
+if (pdfFile) {
+    const safeName = pdfFile.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const path = `pdfs/${Date.now()}-${safeName}`;
+
+    const { error: uploadError } = await db.storage
+        .from("course-files")
+        .upload(path, pdfFile, {
+            cacheControl: "3600",
+            upsert: false,
+            contentType: pdfFile.type
+        });
+
+    if (uploadError) {
+        alert("PDF upload failed: " + uploadError.message);
+        return;
+    }
+
+    const { data: publicData } = db.storage
+        .from("course-files")
+        .getPublicUrl(path);
+
+    pdf = publicData.publicUrl;
+}
         const {
           error
         } = await db
