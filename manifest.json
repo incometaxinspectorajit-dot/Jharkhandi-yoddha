@@ -1,0 +1,10 @@
+{
+  "name": "Jharkhandi Yoddha",
+  "short_name": "Jharkhandi Yoddha",
+  "description": "JPSC, JSSC, SSC, Railway और अन्य परीक्षाओं की तैयारी के लिए शिक्षा प्लेटफॉर्म",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0d47a1",
+  "orientation": "portrait"
+}
