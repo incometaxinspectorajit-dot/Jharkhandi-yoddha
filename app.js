@@ -1371,7 +1371,7 @@ timeLeft =
 
 showQuestion();
 startTimer();
-
+}
 
 // ===============================
 // SUBMIT TEST
