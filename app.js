@@ -14,7 +14,8 @@ const db = supabase.createClient(
 
 let currentUser = null;
 let currentProfile = null;
-
+let timerInterval = null;
+let timeLeft = 0;
 // ===============================
 // HELPERS
 // ===============================
