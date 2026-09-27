@@ -1230,7 +1230,47 @@ async function startTest(testId) {
 
   let currentQuestion = 0;
   const answers = [];
+function updateTimer() {
+  const timer = $("timer");
 
+  if (!timer) {
+    return;
+  }
+
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+
+  timer.textContent =
+    String(minutes).padStart(2, "0") +
+    ":" +
+    String(seconds).padStart(2, "0");
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+
+  updateTimer();
+
+  timerInterval = setInterval(function () {
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+
+      alert("⏰ समय समाप्त हो गया! Test submit किया जा रहा है");
+
+      submitAttempt(
+        testId,
+        answers,
+        data.length
+      );
+
+      return;
+    }
+
+    timeLeft--;
+
+    updateTimer();
+  }, 1000);
+}
   function showQuestion() {
     const question = data[currentQuestion];
 
@@ -1246,7 +1286,9 @@ async function startTest(testId) {
         Question
         ${currentQuestion + 1}/${data.length}
       </h2>
-
+<p>
+  ⏱️ समय शेष: <b id="timer">--:--</b>
+</p>
       <p>
         <b>
           ${esc(question.question)}
@@ -1310,9 +1352,26 @@ async function startTest(testId) {
       );
     }
   };
+const {
+  data: testInfo,
+  error: testError
+} = await db
+  .from("tests")
+  .select("duration_minutes")
+  .eq("id", testId)
+  .single();
 
-  showQuestion();
+if (testError) {
+  alert(testError.message);
+  return;
 }
+
+timeLeft =
+  Number(testInfo.duration_minutes || 30) * 60;
+
+showQuestion();
+startTimer();
+
 
 // ===============================
 // SUBMIT TEST
