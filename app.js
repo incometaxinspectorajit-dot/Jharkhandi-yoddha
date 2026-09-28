@@ -220,12 +220,8 @@ async function refreshSession() {
 
     currentUser = session ? session.user : null;
 
-    const authBtn = $("authBtn");
+    
 
-    if (authBtn) {
-      authBtn.textContent = currentUser ? "Logout" : "Login";
-      authBtn.onclick = currentUser ? logout : openAuth;
-    }
 
     currentProfile = null;
 
@@ -240,7 +236,32 @@ async function refreshSession() {
         currentProfile = data || null;
       }
     }
+const authBtn = $("authBtn");
 
+if (authBtn) {
+  authBtn.textContent = currentUser ? "Logout" : "Login";
+  authBtn.onclick = currentUser ? logout : openAuth;
+}
+
+if (currentUser && authBtn) {
+  const name =
+    currentProfile?.full_name ||
+    currentUser.email?.split("@")[0] ||
+    "Student";
+
+  const nameBox = document.createElement("span");
+
+  nameBox.innerHTML = `👤 Hello, ${esc(name)}`;
+
+  nameBox.style.cssText = `
+    color:white;
+    font-weight:600;
+    margin-right:12px;
+    font-size:14px;
+  `;
+
+  authBtn.parentNode.insertBefore(nameBox, authBtn);
+}
     const dashboard = $("dashboard");
     const admin = $("admin");
 
