@@ -239,28 +239,27 @@ async function refreshSession() {
 const authBtn = $("authBtn");
 
 if (authBtn) {
-  authBtn.textContent = currentUser ? "Logout" : "Login";
-  authBtn.onclick = currentUser ? logout : openAuth;
-}
 
-if (currentUser && authBtn) {
-  const name =
-    currentProfile?.full_name ||
-    currentUser.email?.split("@")[0] ||
-    "Student";
+  if (currentUser) {
 
-  const nameBox = document.createElement("span");
+    const name =
+      currentProfile?.full_name ||
+      currentUser.user_metadata?.full_name ||
+      currentUser.email?.split("@")[0] ||
+      "Student";
 
-  nameBox.innerHTML = `👤 Hello, ${esc(name)}`;
+    authBtn.innerHTML = `
+      👤 Hello, ${esc(name)} &nbsp; | &nbsp; Logout
+    `;
 
-  nameBox.style.cssText = `
-    color:white;
-    font-weight:600;
-    margin-right:12px;
-    font-size:14px;
-  `;
+    authBtn.onclick = logout;
 
-  authBtn.parentNode.insertBefore(nameBox, authBtn);
+  } else {
+
+    authBtn.textContent = "Login";
+    authBtn.onclick = openAuth;
+
+  }
 }
     const dashboard = $("dashboard");
     const admin = $("admin");
